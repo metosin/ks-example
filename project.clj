@@ -97,7 +97,7 @@
                    :plugins [[lein-pdo "0.1.1"]
                              [lein-cljsbuild "1.0.5"]
                              [com.keminglabs/cljx "0.6.0" :exclusions [org.clojure/clojure com.cemerick/piggieback]]
-                             [lein-less4j "0.1.3-SNAPSHOT"]
+                             [deraen/lein-less4j "0.2.0"]
                              [lein-figwheel "0.2.4-SNAPSHOT" :exclusions [org.clojure/clojurescript]]
                              [lein-midje "3.1.3"]]
                    :resource-paths ["target/cljsbuild-dev"]}

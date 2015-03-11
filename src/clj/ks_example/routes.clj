@@ -21,10 +21,10 @@
       (resources "" {:root "META-INF/resources/webjars/font-awesome/4.3.0/fonts"}))
     (context "/shim" []
       (resources "" {:root "META-INF/resources/webjars/es5-shim/4.0.6"}))
-    (resources "" {:root ""}))
+    (resources "" {:root "static"}))
 
   (swaggered "integration" :description "Integration API"
     (context "/api/integration" []
       (POST* "/incoming" {}
-        :body [message integration/Message]
-        (ok {:message message})))))
+        ; :body [message integration/Message]
+        (ok {:message 'message})))))

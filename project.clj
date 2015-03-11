@@ -48,7 +48,7 @@
 
   :source-paths ["src/clj" "target/generated/clj"]
   :test-paths ["test/clj" "test/cljx"]
-  :resource-paths ["resources" "target/generated"]
+  :resource-paths ["resources"]
 
   :uberjar-name "ks-example.jar"
   :auto-clean false
@@ -61,20 +61,20 @@
                    :output-path   "target/generated/cljs"}]}
 
   :less {:source-paths  ["src/less"]
-         :target-path   "target/generated/css"
+         :target-path   "target/generated/static/css"
          :source-map    true}
 
-  :figwheel {:http-server-root  ""
+  :figwheel {:http-server-root  "static"
              :server-port       3450
-             :css-dirs          ["target/generated/css"]
+             :css-dirs          ["target/generated/static/css"]
              :repl              false
              :server-logfile    "target/figwheel-logfile.log"}
 
   :cljsbuild {:builds {:dev {:source-paths ["src/cljs" "target/generated/cljs" "src/dev-cljs"]
                              :compiler {:main            "ks-example.ui.figwheel"
                                         :asset-path      "static/js/out"
-                                        :output-to       "target/generated/js/ks-example.js"
-                                        :output-dir      "target/generated/js/out"
+                                        :output-to       "target/generated/static/js/ks-example.js"
+                                        :output-dir      "target/generated/static/js/out"
                                         :preamble        ["reagent/react.js"]
                                         :source-map      true
                                         :optimizations   :none
@@ -100,7 +100,7 @@
                              [deraen/lein-less4j "0.2.0"]
                              [lein-figwheel "0.2.4-SNAPSHOT" :exclusions [org.clojure/clojurescript]]
                              [lein-midje "3.1.3"]]
-                   :resource-paths ["target/cljsbuild-dev"]}
+                   :resource-paths ["target/generated"]}
              :uberjar {:resource-paths  ["target/cljsbuild-adv"]
                        :less  {:compression true}
                        :main  ks-example.main

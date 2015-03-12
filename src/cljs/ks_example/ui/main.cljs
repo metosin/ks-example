@@ -7,13 +7,11 @@
 (defonce main-data (atom {:clicks 0}))
 
 (defn clicked [_]
-  (js/console.log (clj->js {:foo "bar"}))
-  (swap! main-data update-in [:clicks] dec))
+  (swap! main-data update-in [:clicks] inc))
 
 (defn yell-to-backend [_]
   (go
     (let [response (<! (http/get "/api/integration/incoming" {:query-params {:source "foo"}}))]
-      (js/console.log (pr-str response))
       (swap! main-data assoc-in [:response] response))))
 
 (defn main-view []
@@ -49,4 +47,3 @@
   (reagent/render [main-view] (js/document.getElementById "app")))
 
 (init!)
-

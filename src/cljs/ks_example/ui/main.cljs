@@ -7,12 +7,12 @@
 (defonce main-data (atom {:clicks 0}))
 
 (defn clicked [_]
-  (swap! main-data update-in [:clicks] inc))
+  (js/console.log (clj->js {:foo "bar"}))
+  (swap! main-data update-in [:clicks] dec))
 
 (defn yell-to-backend [_]
   (go
-    (let [response (<! (http/post "/api/integration/incoming" {:edn-params {:source "foo"
-                                                                            :message "bar"}}))]
+    (let [response (<! (http/get "/api/integration/incoming" {:query-params {:source "foo"}}))]
       (js/console.log (pr-str response))
       (swap! main-data assoc-in [:response] response))))
 
@@ -21,27 +21,32 @@
     [:div#main-view
      [:div.jumbotron
       [:div.container
-       [:h1 "Greetings, earthlings!"]
+       [:h1 "Greetings, earthlings!!!"]
        [:p
         [:span "Clicks:"]
         [:span.text-info clicks]]
        [:button.btn.btn-primary.btn-lg
         {:on-click clicked}
-        "Click me"]
+        "Click me!"]
        [:button.btn.btn-default.btn-lg
         {:on-click yell-to-backend}
         "Yell to backend"]]]
      (if-let [{:keys [status body]} response]
        [:div.response
         [:div.alert {:class (if (= status 200) "alert-success" "alert-danger")}
-         [:strong (if (= status 200) "Successful:" "Oh no:")]
-         (pr-str body)
-         [:button.btn.btn-default.btn-xs.pull-right
-          {:on-click (fn [_] (swap! main-data assoc-in [:response] nil))}
-          "Clear"]]])]))
+         [:div
+          [:strong (if (= status 200) "Successful:" "Oh no:")]
+          [:button.btn.btn-default.btn-xs.pull-right
+           {:on-click (fn [_] (swap! main-data assoc-in [:response] nil))}
+           "Clear"]]
+         (for [{:keys [_id ts message]} body]
+           [:div {:key _id}
+            [:strong ts]
+            ts])]])]))
 
 (defn init! []
   (js/console.log "Here we go!")
   (reagent/render [main-view] (js/document.getElementById "app")))
 
 (init!)
+

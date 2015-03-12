@@ -19,12 +19,21 @@
     (context "/fonts" []
       (resources "" {:root "META-INF/resources/webjars/bootstrap/3.3.2/fonts"})
       (resources "" {:root "META-INF/resources/webjars/font-awesome/4.3.0/fonts"}))
-    (context "/shim" []
-      (resources "" {:root "META-INF/resources/webjars/es5-shim/4.0.6"}))
+    (resources "/shim" {:root "META-INF/resources/webjars/es5-shim/4.0.6"})
     (resources "" {:root "static"}))
 
   (swaggered "integration" :description "Integration API"
     (context "/api/integration" []
-      (POST* "/incoming" {}
-        ; :body [message integration/Message]
-        (ok {:message 'message})))))
+
+      (POST* "/incoming" []
+        :body [message integration/IncomingMessage]
+        (ok (integration/save-incoming! message)))
+
+      (GET* "/incoming" []
+        :query-params [{source :- s/Str "foo"}]
+        (ok (integration/find-by-source source))))))
+
+(app {:request-method :get :uri "/api/integration/incoming" :headers {"Accept" "application/edn"}})
+
+
+

@@ -2,6 +2,7 @@
   (:require [clojure.tools.nrepl.server :as nrepl]
             [org.httpkit.server :as http-kit]
             [ks-example.log]
+            [ks-example.date-time-utils]
             [ks-example.routes :as routes]))
 
 (defn start-server [config]

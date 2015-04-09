@@ -2,6 +2,6 @@
   (:gen-class))
 
 (defn -main [& args]
-  (require 'ks-example.http)
-  (require 'ks-example.config)
-  ((resolve 'ks-example.http/start-server) @(resolve 'ks-example.config/config)))
+  (require 'ks-example.system)
+  ((resolve 'ks-example.system/start-base-system) {})
+  (println "Server ready"))

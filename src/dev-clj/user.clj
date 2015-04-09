@@ -1,7 +1,11 @@
 (ns user
-  (:require [reloaded.repl :refer [system init start stop go reset]]))
+  (:require [reloaded.repl :refer [system init start stop go reset]]
+            [monger.collection :as mc]
+            [monger.operators :refer :all]))
 
-(defn set-opts [& {:keys [system opts] :or {system 'ks-example.system/base-system :opts {}}}]
+(defn set-opts [& {:keys [system opts]
+                   :or {system 'ks-example.system/base-system
+                        opts {}}}]
   (reloaded.repl/set-init!
     (fn []
       (require (symbol (namespace system)))
@@ -9,8 +13,4 @@
 
 (set-opts)
 
-(defn db []
-  (get-in system [:mongo :db]))
-
-(defn env []
-  (:env system))
+(defn db [] (-> system :db :db))

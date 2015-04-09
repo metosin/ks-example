@@ -37,4 +37,4 @@
   (ok {:message "Message saved"}))
 
 (defnk find-by-source [[:params source] [:system/ctx db]]
-  (ok {:messages (map ->message-data (mc/find-maps db/db :incoming {:source source}))}))
+  (ok {:messages (map ->message-data (mc/find-maps db :incoming {:source source}))}))

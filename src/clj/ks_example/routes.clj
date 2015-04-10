@@ -27,5 +27,15 @@
 
     (context "/api/integration" []
       (middlewares [session/wrap-session-required]
-        (POST* "/incoming" [] integration/save-incoming!)
-        (GET* "/incoming" [] integration/find-by-source)))))
+        (POST* "/incoming" []
+          :body [body integration/IncomingMessage]
+          :return integration/MessageData
+          :header-params [authorization :- s/Str]
+          integration/save-incoming!)
+        (GET* "/incoming" []
+          :query-params [source :- s/Str]
+          :return [integration/MessageData]
+          :header-params [authorization :- s/Str]
+          integration/find-by-source)))))
+
+

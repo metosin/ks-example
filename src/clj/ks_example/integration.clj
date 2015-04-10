@@ -29,12 +29,13 @@
 (def ->message-data (validator MessageData))
 
 (defnk save-incoming! [params [:system/ctx db]]
-  (mc/insert db :incoming (-> params
-                              ->incoming-message
-                              (assoc
-                                :_id  (db/create-id)
-                                :ts   (DateTime/now))))
-  (ok {:message "Message saved"}))
+  (let [message (-> params
+                    ->incoming-message
+                    (assoc
+                      :_id  (db/create-id)
+                      :ts   (DateTime/now)))]
+    (mc/insert db :incoming message)
+    (ok message)))
 
 (defnk find-by-source [[:params source] [:system/ctx db]]
-  (ok {:messages (map ->message-data (mc/find-maps db :incoming {:source source}))}))
+  (ok (map ->message-data (mc/find-maps db :incoming {:source source}))))

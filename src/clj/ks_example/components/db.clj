@@ -17,7 +17,7 @@
              :fs    (m/get-gridfs db-conn (:db config)))))
 
   (stop [this]
-    (if this
+    (if conn
       (m/disconnect conn))
     (assoc this :conn nil :db nil :fs nil))
 

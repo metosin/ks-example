@@ -7,6 +7,12 @@
             [ks-example.session :as session]
             [ks-example.integration :as integration]))
 
+(require '[clojure.pprint :refer [pprint]])
+
+(defn echo [{params :params :as req}]
+  (print "echo req:") (pprint req)
+  (ok params))
+
 (defapi app-routes
   {:format {:formats [:edn :json-kw]}}
 
@@ -19,6 +25,9 @@
         (resp/content-type "text/html; charset=\"UTF-8\"")))
 
   (swaggered "integration" :description "Integration API"
+
+    (context "/api" []
+      (POST* "/echo" [] echo))
 
     (context "/api/session" []
       (GET* "/" [] session/status)

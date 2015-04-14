@@ -1,10 +1,7 @@
-(ns ks-example.caching
-  (:require [ks-example.config :as config]))
+(ns ks-example.caching)
 
 (def no-cache     "max-age=0,no-cache,no-store")
-(def cache-30d    (if config/dev?
-                    no-cache
-                    "public,max-age=2592000,s-maxage=2592000"))
+(def cache-30d    "public,max-age=2592000,s-maxage=2592000")
 
 (defn add-cache-header [response value]
   (if response
